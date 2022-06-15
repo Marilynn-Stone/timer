@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // user enters comand line arguement to say when beeps will happen
 // create array using process.argv
 // convert time in seconds to milliseconds
@@ -11,27 +12,25 @@
 // negative number => ignore/skip
 // not a number => ignore/skip
 
+let timingArray = process.argv.slice(2).map(Number);
+console.log("timingArray:", timingArray);
 
-;
-
-const timingArray = process.argv.slice(2);
 let convertedTime = [];
-
-const convertTime = function(timingArray) {
-  for (const time of timingArray) {
-    convertedTime.push(time * 1000);
+const convertTime = function(times) {
+  for (const time of times) {
+    if ((time > 0) && (!Number.isNaN(time))) {
+      convertedTime.push(time * 1000);
+    }
   }
 };
+convertTime(timingArray);
+console.log("convertedTime:", convertedTime);
 
-const timer = function(timingArray) {
-  for (let num of timingArray) {
+const timer = function(convertedTimes) {
+  for (let time of convertedTimes) {
     setTimeout(() => {
-      process.stdout.write('\x07');
+      process.stdout.write("\x07");
     }, time);
-    time += timeIncrement;
   }
-  // this adds a new line once spinnerText is completely printed
-  setTimeout(() => {
-    process.stdout.write('\n');
-  }, spinnerText.length * timeIncrement);
 };
+timer(convertedTime);
